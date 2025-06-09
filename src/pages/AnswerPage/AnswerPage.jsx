@@ -4,24 +4,25 @@ import AnswerCluster from './components/AnswerCluster';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-import FloatingButton from './components/FloatingButton';
 import PostHeader from './components/PostHeader';
 
-function FeedPage() {
-  const baseUrl = import.meta.env.VITE_BASE_URL;
+import styled from 'styled-components';
+
+function AnswerPage() {
+  const baseUrl = 'https://openmind-api.vercel.app/16-6';
   const [subject, setSubject] = useState({});
-  const [result, setResult] = useState({});
+  const [result, setResult] = useState(null);
   const [questions, setQuestions] = useState([]);
   const resultRef = useRef(null);
   const params = useParams();
 
   const subjectId = params.id;
-
   const additionalFetch = () => {
     axios.get(resultRef.current.next).then((res) => {
       setResult(res.data);
       setQuestions((prev) => [...prev, ...res.data.results]);
     });
+    console.log(questions);
   };
 
   useEffect(() => {
@@ -54,9 +55,8 @@ function FeedPage() {
         questions={questions}
         callback={additionalFetch}
       />
-      <FloatingButton />
     </>
   );
 }
 
-export default FeedPage;
+export default AnswerPage;

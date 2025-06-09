@@ -6,7 +6,9 @@ function Badge({ variant, children }) {
 
 export default Badge;
 
-const StyledBadge = styled.div`
+const StyledBadge = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'variant',
+})`
   width: fit-content;
   padding: 4px 12px;
   border-radius: 8px;

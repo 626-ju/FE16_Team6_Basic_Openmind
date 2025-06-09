@@ -1,6 +1,6 @@
+import ThumbsUp from '@assets/icons/ThumbsUp.svg?react';
 import styled from 'styled-components';
 
-import ThumbsUp from '../assets/ThumbsUp.svg?react';
 import { theme } from '../styles/theme';
 
 function LikeButton({ onClick, isPressed, disabled, likeCount }) {

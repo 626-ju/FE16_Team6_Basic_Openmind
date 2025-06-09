@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import ArrowDown from '@assets/icons/ArrowDown.svg?react';
 import ArrowUp from '@assets/icons/ArrowUp.svg?react';
+import useClickOutside from '@hooks/useClickOutside';
 import styled from 'styled-components';
 
 const sortObj = {
@@ -10,34 +11,14 @@ const sortObj = {
 };
 
 function SortSelector() {
-  const [isOpen, setIsOpen] = useState(false);
   // 나중에 쿼리스트링으로 편입
   const [order, setOrder] = useState('time');
   const selectorRef = useRef();
 
-  function closeDropDown(e) {
-    if (!selectorRef.current.contains(e.target)) {
-      setIsOpen(false);
-    }
-  }
+  const [isOpen, handleToggle] = useClickOutside(selectorRef);
 
-  useEffect(() => {
-    document.addEventListener('click', closeDropDown);
-
-    return () => {
-      document.removeEventListener('click', closeDropDown);
-    };
-  },[]);
-
-  function handleClick(e) {
-    if (e.target.tagName !== 'LI') return;
-
-    const targetValue = e.target.dataset.value;
-    setOrder(targetValue);
-  }
-
-  function handleToggle() {
-    setIsOpen(!isOpen);
+  function handleClick(key) {
+    setOrder(key);
   }
 
   return (
@@ -59,12 +40,12 @@ function SortSelector() {
         />
       </button>
       {isOpen && (
-        <SortUl onClick={handleClick}>
+        <SortUl>
           {Object.keys(sortObj).map((key) => {
             return (
               <li
+                onClick={() => handleClick(key)}
                 key={key}
-                data-value={key}
                 className={key === order ? 'selected' : null}
               >
                 {sortObj[key]}

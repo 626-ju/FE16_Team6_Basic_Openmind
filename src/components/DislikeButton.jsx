@@ -1,6 +1,6 @@
+import ThumbsDown from '@assets/icons/ThumbsDown.svg?react';
 import styled from 'styled-components';
 
-import ThumbsDown from '../assets/ThumbsDown.svg?react';
 import { theme } from '../styles/theme';
 
 function DislikeButton({ onClick, isPressed, disabled }) {
