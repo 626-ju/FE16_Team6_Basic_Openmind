@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useToastContext } from '@context/ToastContext';
 import { createPortal } from 'react-dom';
@@ -34,9 +34,19 @@ function Toast({ message, id, delay = TOAST_DELAY, order }) {
 // ToastContainer 컴포넌트
 export default function ToastContainer() {
   const { toasts } = useToastContext();
+  const [container, setContainer] = useState(null);
 
-  const toastContainer = document.getElementById('toast-container');
-  if (!toastContainer) return;
+  useEffect(() => {
+    let toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) {
+      toastContainer = document.createElement('div');
+      toastContainer.setAttribute('id', 'toast-container');
+      document.body.appendChild(toastContainer);
+    }
+    setContainer(toastContainer);
+  }, []);
+
+  if (!container) return;
 
   return createPortal(
     <StyledToastContainer>
@@ -50,7 +60,7 @@ export default function ToastContainer() {
         />
       ))}
     </StyledToastContainer>,
-    toastContainer,
+    container,
   );
 }
 
